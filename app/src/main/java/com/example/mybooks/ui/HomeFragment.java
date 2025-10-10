@@ -8,30 +8,43 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mybooks.databinding.FragmentHomeBinding;
+import com.example.mybooks.entity.BookEntity;
 import com.example.mybooks.viewmodel.HomeViewModel;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private HomeViewModel viewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel viewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+       viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+       binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        final TextView textView = binding.textHome;
-        viewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return binding.getRoot();
+       viewModel.getBooks();
+       setObservers();
+       return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void setObservers(){
+        viewModel.books.observe(getViewLifecycleOwner(), new Observer<List<BookEntity>>() {
+            @Override
+            public void onChanged(List<BookEntity> bookEntities) {
+
+            }
+        });
     }
 }

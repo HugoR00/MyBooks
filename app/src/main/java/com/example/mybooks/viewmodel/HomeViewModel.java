@@ -4,16 +4,23 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.mybooks.entity.BookEntity;
+import com.example.mybooks.repository.BookRepository;
+
+import java.util.List;
+
 public class HomeViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private BookRepository bookRepository = new BookRepository();
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
-    }
+    //Capta as mudanças na lista
+    private final MutableLiveData<List<BookEntity>> _books = new MutableLiveData<>();
 
-    public LiveData<String> getText() {
-        return mText;
+    //Apresenta as mudanças e protege o mutable de alterações
+    public final LiveData<List<BookEntity>> books = _books;
+
+    //Pega os livros e adiciona ao mutable, usando a função do repository
+    public void getBooks(){
+        _books.setValue(bookRepository.getBooks());
     }
 }
