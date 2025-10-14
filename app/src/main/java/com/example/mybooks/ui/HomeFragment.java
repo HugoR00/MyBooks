@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.mybooks.ui.adapter.BooksAdapter;
 import com.example.mybooks.databinding.FragmentHomeBinding;
 import com.example.mybooks.entity.BookEntity;
 import com.example.mybooks.viewmodel.HomeViewModel;
@@ -21,6 +22,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
+    private BooksAdapter adapter = new BooksAdapter();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class HomeFragment extends Fragment {
        binding = FragmentHomeBinding.inflate(inflater, container, false);
 
        viewModel.getBooks();
+       binding.recyclerviewBooks.setLayoutManager(new LinearLayoutManager(getContext()));
+       binding.recyclerviewBooks.setAdapter(adapter);
+
        setObservers();
        return binding.getRoot();
     }
@@ -43,7 +48,7 @@ public class HomeFragment extends Fragment {
         viewModel.books.observe(getViewLifecycleOwner(), new Observer<List<BookEntity>>() {
             @Override
             public void onChanged(List<BookEntity> bookEntities) {
-
+                adapter.updateBooks(bookEntities);
             }
         });
     }
