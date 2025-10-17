@@ -20,11 +20,15 @@
         android:id="@+id/textview_genre"
         app:layout_constraintTop_toBottomOf="@id/textview_title"
         app:layout_constraintStart_toStartOf="@id/textview_title"
+        android:background="@drawable/rounded_label_generic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:text="Gênero"
         android:textSize="16sp"
+        android:textColor="@color/white"
         />
 
     <TextView

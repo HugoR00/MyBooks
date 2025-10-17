@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mybooks.databinding.ItemBookBinding;
 import com.example.mybooks.entity.BookEntity;
+import com.example.mybooks.ui.listener.BookListener;
 import com.example.mybooks.ui.viewHolder.BookViewHolder;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BookViewHolder> {
 
     //Cria uma lista de bookentity
     private List<BookEntity> booksList = new ArrayList<>();
+    private BookListener listener;
 
 
     //Infla a viewholder, ou seja, instancia ela, da vida a viewholder
@@ -26,7 +28,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BookViewHolder> {
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemBookBinding view = ItemBookBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        return new BookViewHolder(view);
+        return new BookViewHolder(view,listener);
     }
 
     //É o que faz a passagem do dataset e binda a viewholder, no caso bindando a BookViewHolder, o
@@ -47,5 +49,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BookViewHolder> {
     //Essa atualização é feita lá no observer do fragment
     public void updateBooks(List<BookEntity> books){
         booksList = books;
+    }
+
+    public void attachListener(BookListener bookListener){
+        listener = bookListener;
     }
 }

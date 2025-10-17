@@ -9,11 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.mybooks.R;
 import com.example.mybooks.ui.adapter.BooksAdapter;
 import com.example.mybooks.databinding.FragmentHomeBinding;
 import com.example.mybooks.entity.BookEntity;
+import com.example.mybooks.ui.listener.BookListener;
 import com.example.mybooks.viewmodel.HomeViewModel;
 
 import java.util.List;
@@ -35,6 +38,7 @@ public class HomeFragment extends Fragment {
        binding.recyclerviewBooks.setAdapter(adapter);
 
        setObservers();
+       attachListener();
        return binding.getRoot();
     }
 
@@ -51,5 +55,21 @@ public class HomeFragment extends Fragment {
                 adapter.updateBooks(bookEntities);
             }
         });
+    }
+
+    private void attachListener(){
+        BookListener listener = new BookListener() {
+            @Override
+            public void onClick(int id) {
+                NavHostFragment.findNavController(HomeFragment.this)
+                        .navigate(R.id.navigation_details);
+            }
+
+            @Override
+            public void onClickFavorite(int id) {
+
+            }
+        };
+        adapter.attachListener(listener);
     }
 }
