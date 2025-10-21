@@ -45,4 +45,16 @@ public class BookRepository {
     public List<BookEntity> getBooks() {
         return books;
     }
+
+    //Funçao para retornar um livro B a partir do ID do livro passando no param da func
+    public BookEntity getBookById(int id){
+        BookEntity book = null;
+        for(BookEntity b : books){
+            if(b.getId() == id){
+                book = b;
+                break;
+            }
+        }
+        return book;
+    }
 }

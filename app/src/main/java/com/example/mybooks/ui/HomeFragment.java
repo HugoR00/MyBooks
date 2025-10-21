@@ -25,7 +25,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
-    private BooksAdapter adapter = new BooksAdapter();
+    private final BooksAdapter adapter = new BooksAdapter();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -61,8 +61,13 @@ public class HomeFragment extends Fragment {
         BookListener listener = new BookListener() {
             @Override
             public void onClick(int id) {
+                //Bundle pegando o ID do livro e vinculando a key bookId
+                Bundle bundle = new Bundle();
+                bundle.putInt("bookId", id);
+
+
                 NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.navigation_details);
+                        .navigate(R.id.navigation_details, bundle); //Navegaçao para o navigation details e com a passagem do bundle contendo o bookId
             }
 
             @Override
