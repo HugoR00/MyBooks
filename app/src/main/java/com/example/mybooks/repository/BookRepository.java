@@ -37,9 +37,23 @@ public class BookRepository {
         return initialBooks;
     }
 
+    private static BookRepository instance; //Cria uma instancia de book repository
+
     //Adiciona todos os livros iniciais a lista
-    public BookRepository(){
+    private BookRepository(){ //BookRepository privado para não ser instanciado toda vez que inicializa
         books.addAll(getInitialBooks());
+    }
+
+    //func para pegar a instance de book repository e inicializar caso não esteja incializada, fazendo agora
+    //com que ela possa ser inicializada somente via essa func
+    public static BookRepository getInstance(){
+        //Synchronized garante que apenas uma thread rode a nova instancia do repo
+        synchronized (BookRepository.class){
+            if(instance == null){
+                instance = new BookRepository();
+            }
+        }
+        return instance;
     }
 
     public List<BookEntity> getBooks() {
@@ -56,5 +70,14 @@ public class BookRepository {
             }
         }
         return book;
+    }
+
+    public void toggleFavoriteStatus(int id){
+        for (BookEntity book: books){
+            if(book.getId() == id){
+                book.setFavorite(!book.isFavorite());
+                break;
+            }
+        }
     }
 }

@@ -49,6 +49,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BookViewHolder> {
     //Essa atualização é feita lá no observer do fragment
     public void updateBooks(List<BookEntity> books){
         booksList = books;
+        notifyDataSetChanged();
     }
 
     public void attachListener(BookListener bookListener){

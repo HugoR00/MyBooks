@@ -9,7 +9,7 @@ import com.example.mybooks.repository.BookRepository;
 
 public class DetailsViewModel extends ViewModel {
 
-    private final BookRepository bookRepository = new BookRepository();
+    private final BookRepository bookRepository = BookRepository.getInstance();
 
     //Criaçao de mutable/livedata para vincular informacao do livro ao observer
     private final MutableLiveData<BookEntity> _book = new MutableLiveData<>();
@@ -18,5 +18,9 @@ public class DetailsViewModel extends ViewModel {
     public void getBookById(int id){
         //Repassada alteraçao vinda do mutable para a funcao
         _book.setValue(bookRepository.getBookById(id));
+    }
+
+    public void toggleFavoriteStatus(int id){
+        bookRepository.toggleFavoriteStatus(id);
     }
 }

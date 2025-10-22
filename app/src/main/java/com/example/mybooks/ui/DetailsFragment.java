@@ -36,6 +36,8 @@ public class DetailsFragment extends Fragment {
         viewModel.getBookById(bookId);
 
         setObservers();
+        setListeners();
+
         return binding.getRoot();
     }
 
@@ -56,6 +58,24 @@ public class DetailsFragment extends Fragment {
                 binding.textviewGenreValue.setText(book.getGenre());
                 binding.checkboxFavorite.setChecked(book.isFavorite());
                 setGenreBackgroundColor(book);
+            }
+        });
+    }
+
+    private void setListeners(){
+        binding.checkboxFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.toggleFavoriteStatus(bookId);
+            }
+        });
+        binding.imageviewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Pega a activity em que a fragment esta inserida
+                //Pega o gerenciador das fragments
+                //Navega para o destino anterior
+                requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }

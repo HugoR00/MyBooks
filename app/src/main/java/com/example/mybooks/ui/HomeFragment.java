@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClickFavorite(int id) {
-
+                viewModel.toggleFavoriteStatus(id);
             }
         };
         adapter.attachListener(listener);

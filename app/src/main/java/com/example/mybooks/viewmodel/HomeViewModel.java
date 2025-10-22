@@ -11,7 +11,7 @@ import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
-    private BookRepository bookRepository = new BookRepository();
+    private BookRepository bookRepository = BookRepository.getInstance();
 
     //Capta as mudanças na lista
     private final MutableLiveData<List<BookEntity>> _books = new MutableLiveData<>();
@@ -22,5 +22,10 @@ public class HomeViewModel extends ViewModel {
     //Pega os livros e adiciona ao mutable, usando a função do repository
     public void getBooks(){
         _books.setValue(bookRepository.getBooks());
+    }
+
+    public void toggleFavoriteStatus(int id){
+        bookRepository.toggleFavoriteStatus(id);
+        getBooks();
     }
 }
