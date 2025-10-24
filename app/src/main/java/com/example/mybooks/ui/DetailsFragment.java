@@ -1,5 +1,7 @@
 package com.example.mybooks.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.mybooks.R;
 import com.example.mybooks.databinding.FragmentDetailsBinding;
@@ -30,7 +33,7 @@ public class DetailsFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
         binding = FragmentDetailsBinding.inflate(inflater, container, false);
 
-        //bookId criado e pegando o valor de id vinculado ao bookID
+        //bookId criado e pegando o valor de id vinculado a key bookID no repo
         bookId = getArguments() != null ? getArguments().getInt("bookId", 0) : 0;
         //id passado a viewModel para retornar livro
         viewModel.getBookById(bookId);
@@ -60,6 +63,17 @@ public class DetailsFragment extends Fragment {
                 setGenreBackgroundColor(book);
             }
         });
+
+        //Identifica a deleção do livro e mostra que foi removido com sucesso
+        viewModel.bookDeleted.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    Toast.makeText(getContext(), R.string.msg_removed_successfully,Toast.LENGTH_SHORT).show();
+                    requireActivity().getSupportFragmentManager().popBackStack();
+                }
+            }
+        });
     }
 
     private void setListeners(){
@@ -78,6 +92,34 @@ public class DetailsFragment extends Fragment {
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
+        //Ao clicar no botão ele aparece o aviso de se realmente deseja deletar
+        binding.buttonRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleRemove();
+            }
+        });
+    }
+
+
+    //Func pra perguntar se a pessoa realmente deseja deletar o livro, se sim
+    //ele deleta a partir do código "viewModel.deleteBook(bookId)"
+    private void handleRemove(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(R.string.dialog_message_delete_item)
+                .setPositiveButton(R.string.dialog_positive_button_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        viewModel.deleteBook(bookId);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_negative_button_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
     }
 
     public void setGenreBackgroundColor(BookEntity book){

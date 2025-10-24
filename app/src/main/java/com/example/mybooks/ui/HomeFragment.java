@@ -33,13 +33,19 @@ public class HomeFragment extends Fragment {
 
        binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-       viewModel.getBooks();
        binding.recyclerviewBooks.setLayoutManager(new LinearLayoutManager(getContext()));
        binding.recyclerviewBooks.setAdapter(adapter);
 
        setObservers();
        attachListener();
        return binding.getRoot();
+    }
+
+    //Listagem só vai ser mostrada se o user realmente abrir a listagem
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.getBooks();
     }
 
     @Override

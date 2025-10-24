@@ -15,7 +15,7 @@
 
     <!-- Mensagens de sucesso e erro -->
     <string name="msg_removed_successfully">Item removido com sucesso!</string>
-    <string name="msg_no_books">Nenhum livro encontrado nos seus favoritos!</string>
+    <string name="msg_no_books">Nenhum livro encontrado nos seus favoritos! :(</string>
 
     <!-- Botões e descrições -->
     <string name="button_remove_book">Remover livro</string>

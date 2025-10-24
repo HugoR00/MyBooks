@@ -60,6 +60,17 @@ public class BookRepository {
         return books;
     }
 
+    public List<BookEntity> getFavoriteBooks(){
+        List<BookEntity> favorites = new ArrayList<>(); //Lista inicializada primeiro vazia
+        for (BookEntity book : books){
+            if(book.isFavorite()){
+                favorites.add(book);
+            }
+        }
+        return favorites;
+    }
+
+
     //Funçao para retornar um livro B a partir do ID do livro passando no param da func
     public BookEntity getBookById(int id){
         BookEntity book = null;
@@ -79,5 +90,17 @@ public class BookRepository {
                 break;
             }
         }
+    }
+
+    //Percorre a lista de livros e deleta se o ID for igual ao encontrado na lista
+    public boolean deleteBook(int id){
+        for (int i = 0; i < books.size(); i++) {
+            if(books.get(i).getId() ==  id){
+                books.remove(i);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

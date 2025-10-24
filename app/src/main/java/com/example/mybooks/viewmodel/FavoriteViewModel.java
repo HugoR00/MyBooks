@@ -4,16 +4,28 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.mybooks.entity.BookEntity;
+import com.example.mybooks.repository.BookRepository;
+
+import java.util.List;
+
 public class FavoriteViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private BookRepository bookRepository = BookRepository.getInstance();
 
-    public FavoriteViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is favorites fragment");
+    //Capta as mudanças na lista
+    private final MutableLiveData<List<BookEntity>> _books = new MutableLiveData<>();
+
+    //Apresenta as mudanças e protege o mutable de alterações
+    public final LiveData<List<BookEntity>> books = _books;
+
+    //Pega os livros e adiciona ao mutable, usando a função do repository
+    public void getBooks(){
+        _books.setValue(bookRepository.getFavoriteBooks());
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void toggleFavoriteStatus(int id){
+        bookRepository.toggleFavoriteStatus(id);
+        getBooks();
     }
 }

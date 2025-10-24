@@ -15,6 +15,10 @@ public class DetailsViewModel extends ViewModel {
     private final MutableLiveData<BookEntity> _book = new MutableLiveData<>();
     public final LiveData<BookEntity> book = _book;
 
+    //Mutable live data pra acompanhar a deleção do livro
+    private final MutableLiveData<Boolean> _bookDeleted = new MutableLiveData<>();
+    public final LiveData<Boolean> bookDeleted = _bookDeleted;
+
     public void getBookById(int id){
         //Repassada alteraçao vinda do mutable para a funcao
         _book.setValue(bookRepository.getBookById(id));
@@ -22,5 +26,10 @@ public class DetailsViewModel extends ViewModel {
 
     public void toggleFavoriteStatus(int id){
         bookRepository.toggleFavoriteStatus(id);
+    }
+
+    //Func para deletar o livro, vinculando o mutable ao que foi deletado no repository
+    public void deleteBook(int id){
+        _bookDeleted.setValue(bookRepository.deleteBook(id));
     }
 }
